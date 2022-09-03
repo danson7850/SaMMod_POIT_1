@@ -1,10 +1,17 @@
 package main
 
-import "sammod_1/internal"
+import (
+	"fmt"
+	"sammod_1/internal"
+)
 
 func main() {
-	result := internal.LehmerAlgorithm(3, 5, 3, 1)
-	for _, i := range result {
-		println(i)
+	result, xResult := internal.LehmerAlgorithm(3, 5, 5, 1)
+
+	for i := range result {
+		fmt.Printf("%.2f || %.2f\n", result[i], xResult[i])
 	}
+
+	mx, dx, sx := internal.EstimationCalculation(result)
+	fmt.Printf("mx = %.5f, dx = %.5f, sx = %.5f", mx, dx, sx)
 }
