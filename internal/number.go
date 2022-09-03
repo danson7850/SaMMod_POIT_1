@@ -33,7 +33,7 @@ func EstimationCalculation(numbers []float64) (mx, dx, sx float64) {
 	mx /= float64(len(numbers))
 
 	for _, i := range numbers {
-		dx += math.Pow(i, float64(2))
+		dx += math.Pow(i-mx, float64(2))
 	}
 
 	dx /= float64(len(numbers)) - 1
