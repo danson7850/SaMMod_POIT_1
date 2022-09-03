@@ -1,6 +1,8 @@
 package internal
 
-import "math"
+import (
+	"math"
+)
 
 // k - const that we need to calculate histogram
 const k = 20
@@ -11,14 +13,13 @@ const k = 20
 // r - start number
 // n - count of iterations (new generated numbers)
 // result - array of int numbers
-func LehmerAlgorithm(a, m, n int, r float64) (result, xResult []float64) {
+func LehmerAlgorithm(a, m, n int, r float64) (result []float64) {
 	for i := 0; i < n; i++ {
 		r1 := r
 		r = math.Mod(float64(a)*r1, float64(m))
-		result = append(result, r)
-		xResult = append(xResult, r/float64(m))
+		result = append(result, r/float64(m))
 	}
-	return result, xResult
+	return result
 }
 
 // EstimationCalculation - function which provides calculation of math.expectation, dispersion
@@ -47,8 +48,16 @@ func HistogramCalculation() {
 
 }
 
-func UniformityChecker() {
+func UniformityChecker(numbers []float64) float64 {
+	count := 0
 
+	for i := 0; i < len(numbers)/2; i++ {
+		if math.Pow(numbers[2*i], 2)+math.Pow(numbers[2*i+1], 2) < 1 {
+			count++
+		}
+	}
+
+	return 2 * float64(count) / float64(len(numbers))
 }
 
 func AperiodicCalculation() {
