@@ -1,6 +1,7 @@
 package service
 
 import (
+	"log"
 	"math"
 	"sammod_1/internal/utils"
 )
@@ -48,8 +49,32 @@ func EstimationCalculation(data []float64) (mx, dx, sx float64) {
 }
 
 // HistogramCalculation - function
-func HistogramCalculation(data []float64) {
-	//max, min := utils.MinmaxElements(data)
+func HistogramCalculation(data []float64) (ordinate [k]float64) {
+	var numbers [k]int
+	var values [k]float64
+
+	min, max := utils.MinmaxElements(data)
+	rVar := max - min
+	delta := rVar / k
+	left, right := min, min+delta
+
+	for i := 0; i < k; i++ {
+		for j := 0; j < len(data); j++ {
+			if data[j] >= left && data[j] < right {
+				numbers[i]++
+			}
+		}
+		values[i] = (left + right) / 2
+		left += delta
+		right += delta
+
+		ordinate[i] = float64(numbers[i]) / float64(len(data))
+	}
+	log.Println(numbers)
+	log.Println(values)
+	log.Println(ordinate)
+
+	return
 }
 
 // UniformityChecker - function which checks that our numbers close to π/4 or not
@@ -74,7 +99,8 @@ func AperiodicCalculation(data []float64, n, m int) (period, aperiod int) {
 	if len(indexes) > 1 {
 		period = indexes[1] - indexes[0]
 	} else {
-		period = indexes[0]
+		//TODO: add error
+		period = indexes[0] + 1
 	}
 
 	if len(indexes) < 2 {
@@ -90,7 +116,7 @@ func AperiodicCalculation(data []float64, n, m int) (period, aperiod int) {
 		if res == 0 {
 			res = indexes[0]
 		}
-		aperiod = res + period
+		aperiod = res + period + 1
 	}
 
 	return
