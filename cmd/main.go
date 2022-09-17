@@ -98,8 +98,19 @@ func main() {
 			ordinate := service.HistogramCalculation(result)
 
 			win.QueueDraw()
+
+			hist.Connect("draw", func(da *gtk.DrawingArea, cr *cairo.Context) {
+				cr.SetSourceRGB(0, 0, 0)
+				cr.Rectangle(0, 0, 700, 350)
+				cr.Fill()
+				cr.SetSourceRGB(255, 255, 255)
+				cr.Rectangle(1, 1, 698, 348)
+				cr.Fill()
+			})
+
 			hist.Connect("draw", func(da *gtk.DrawingArea, cr *cairo.Context) {
 				num1 := 0.0
+
 				for _, num := range ordinate {
 					cr.SetSourceRGB(0, 0, 0)
 					cr.Rectangle(0+num1, 350, 35, -3500*num)
